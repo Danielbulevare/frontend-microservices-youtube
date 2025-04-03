@@ -1,5 +1,9 @@
 <app-header />
 
+@if (getShowNotification()) {
+    <app-notification />
+}
+
 <div class="grid">
 
     <app-menu class="menu mt-2" />

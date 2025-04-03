@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { UUID } from 'crypto';
+import { NotificationService } from '../../../Core/Services/Notification/notification.service';
 
 @Component({
   selector: 'app-favorites',
@@ -20,6 +21,8 @@ import { UUID } from 'crypto';
 export default class FavoritesComponent implements OnInit {
   private favoriteVideoService = inject(FavoriteVideoService);
   private keycloakService = inject(KeycloakService);
+  private notificationService = inject(NotificationService);
+
   private readonly RECORDS: number = 8;
 
   myVideos: IFavoriteVideo[] = [];
@@ -48,6 +51,10 @@ export default class FavoritesComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 
+  showNotification(message: string, alertType: string) {
+    this.notificationService.showNotification(message, alertType);
+  }
+
   private getTotalVideos() {
     this.favoriteVideoService
       .totalUserVideos(this.keycloakService.profile?.id)
@@ -55,7 +62,12 @@ export default class FavoritesComponent implements OnInit {
         next: (response: number) => {
           this.totalVideos.set(response);
         },
-        error: (response: any) => {},
+        error: (response: any) => {
+          this.showNotification(
+            'Error al obtener el total de videos.',
+            'alert alert-danger'
+          );
+        },
       });
   }
 
@@ -65,14 +77,21 @@ export default class FavoritesComponent implements OnInit {
 
   findUserVideos() {
     this.favoriteVideoService
-      .findUserVideos(this.keycloakService.profile?.id, this.currentPage(), this.RECORDS)
+      .findUserVideos(
+        this.keycloakService.profile?.id,
+        this.currentPage(),
+        this.RECORDS
+      )
       .subscribe({
         next: (response: IFavoriteVideo[]) => {
           this.myVideos = response;
           this.disabledNextBtn();
           this.disabledPreviousBtn();
         },
-        error: () => {},
+        error: () => {this.showNotification(
+          'Error al recuperar los videos favoritos.',
+          'alert alert-danger'
+        );},
       });
   }
 
@@ -125,15 +144,19 @@ export default class FavoritesComponent implements OnInit {
   }
 
   deleteVideo(id: UUID) {
-    this.favoriteVideoService
-      .deleteFavoriteVideo(id
-      )
-      .subscribe({
-        next: (response: void) => {
-          this.findUserVideos();
-          this.getTotalVideos();
-        },
-        error: () => {},
-      });
+    this.favoriteVideoService.deleteFavoriteVideo(id).subscribe({
+      next: (response: void) => {
+        this.findUserVideos();
+        this.getTotalVideos();
+        this.showNotification(
+          'Video eliminado de favoritos.',
+          'alert alert-success'
+        );
+      },
+      error: () => {this.showNotification(
+        'Error al eliminar el video de favoritos.',
+        'alert alert-danger'
+      );},
+    });
   }
 }

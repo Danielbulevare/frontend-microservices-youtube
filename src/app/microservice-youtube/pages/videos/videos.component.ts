@@ -12,6 +12,7 @@ import { ISaveFavoriteVideo } from '../../../Core/Models/Responses/isave-favorit
 import { Item } from '../../../Core/Models/item';
 import { IFavoriteVideo } from '../../../Core/Models/Entities/ifavorite-video';
 import { KeycloakService } from '../../../Core/Services/Keycloak/keycloak.service';
+import { NotificationService } from '../../../Core/Services/Notification/notification.service';
 
 @Component({
   selector: 'app-videos',
@@ -23,6 +24,7 @@ export default class VideosComponent {
   private ApiYouTubeService = inject(ApiYouTubeService);
   private apiFavoriteVideoService = inject(FavoriteVideoService);
   private keycloakService = inject(KeycloakService);
+  private notificationService = inject(NotificationService);
 
   videosList = signal<Welcome | null>(null);
 
@@ -35,8 +37,17 @@ export default class VideosComponent {
       next: (response: Welcome) => {
         this.videosList.set(response);
       },
-      error: (response: any) => {},
+      error: (response: any) => {
+        this.showNotification(
+          'Error al obtener videos de YouTube.',
+          'alert alert-danger'
+        );
+      },
     });
+  }
+
+  showNotification(message: string, alertType: string) {
+    this.notificationService.showNotification(message, alertType);
   }
 
   public searchPage(): void {
@@ -47,7 +58,12 @@ export default class VideosComponent {
       next: (response: Welcome) => {
         this.videosList.set(response);
       },
-      error: (response: any) => {},
+      error: (response: any) => {
+        this.showNotification(
+          'Error al cargar videos de la siguiente página.',
+          'alert alert-danger'
+        );
+      },
     });
   }
 
@@ -59,9 +75,20 @@ export default class VideosComponent {
       url: video.snippet.thumbnails.medium.url,
     };
 
-    this.apiFavoriteVideoService
-      .saveVideo(videoToSave)
-      .subscribe({ next: (response: IFavoriteVideo) => {}, error: () => {} });
+    this.apiFavoriteVideoService.saveVideo(videoToSave).subscribe({
+      next: (response: IFavoriteVideo) => {
+        this.showNotification(
+          'El video se agreo a mis videos favoritos.',
+          'alert alert-success'
+        );
+      },
+      error: (response: any) => {
+        this.showNotification(
+          'El video ya lo tienes guardado en mis favoritos.',
+          'alert alert-danger'
+        );
+      },
+    });
   }
 
   get txtSearch() {
