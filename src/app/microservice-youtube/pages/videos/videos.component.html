@@ -12,6 +12,7 @@
 
 <div class="grid">
   @for (item of videosList()?.items; track $index) {
+    @if (item.id.videoId != undefined) {
   <div class="card">
     <img
       [src]="item.snippet.thumbnails.medium.url"
@@ -20,7 +21,7 @@
       style="height: 180px;"
     />
     <div class="card-body">
-      <button type="button" class="btn btn-outline-danger">Guardar
+      <button type="button" class="btn btn-outline-danger" (click)="addFavoriteVideo(item)">Guardar
         <img
           src="assets/img/redHeart.svg"
           alt="Logo"
@@ -33,6 +34,7 @@
       <h5 class="card-title">{{item.snippet.title}}</h5>
     </div>
   </div>
+}
   }
 </div>
 
