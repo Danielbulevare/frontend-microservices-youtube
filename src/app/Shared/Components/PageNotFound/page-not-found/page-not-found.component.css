@@ -1,0 +1,17 @@
+img{
+    width: 25%;
+    height: 25%;
+}
+
+.flex-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.height{
+    height: 100vh;
+    display: flex;
+        justify-content: center;
+        align-items: center;
+}

@@ -23,4 +23,9 @@ export const routes: Routes = [
     redirectTo: '/microservice-youtube/videos',
     pathMatch: 'full',
   },
+  {
+    path: '**',
+    loadComponent: () =>
+      import('./Shared/Components/PageNotFound/page-not-found/page-not-found.component')
+  },
 ];
