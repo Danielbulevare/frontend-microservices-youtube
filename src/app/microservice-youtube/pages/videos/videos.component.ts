@@ -11,7 +11,6 @@ import { FavoriteVideoService } from '../../../Core/Services/FavoriteVideo/favor
 import { ISaveFavoriteVideo } from '../../../Core/Models/Responses/isave-favorite-video';
 import { Item } from '../../../Core/Models/item';
 import { IFavoriteVideo } from '../../../Core/Models/Entities/ifavorite-video';
-import { KeycloakService } from '../../../Core/Services/Keycloak/keycloak.service';
 import { NotificationService } from '../../../Core/Services/Notification/notification.service';
 
 @Component({
@@ -23,7 +22,6 @@ import { NotificationService } from '../../../Core/Services/Notification/notific
 export default class VideosComponent {
   private ApiYouTubeService = inject(ApiYouTubeService);
   private apiFavoriteVideoService = inject(FavoriteVideoService);
-  private keycloakService = inject(KeycloakService);
   private notificationService = inject(NotificationService);
 
   videosList = signal<Welcome | null>(null);
@@ -69,7 +67,7 @@ export default class VideosComponent {
 
   public addFavoriteVideo(video: Item) {
     let videoToSave: ISaveFavoriteVideo = {
-      userId: this.keycloakService.profile?.id,
+      userId: crypto.randomUUID(),/*Poner el id del usuario */
       videoId: video.id.videoId,
       title: video.snippet.title,
       url: video.snippet.thumbnails.medium.url,

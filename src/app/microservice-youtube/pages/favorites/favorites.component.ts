@@ -1,7 +1,6 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FavoriteVideoService } from '../../../Core/Services/FavoriteVideo/favorite-video.service';
 import { IFavoriteVideo } from '../../../Core/Models/Entities/ifavorite-video';
-import { KeycloakService } from '../../../Core/Services/Keycloak/keycloak.service';
 import {
   FormControl,
   FormGroup,
@@ -9,7 +8,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { UUID } from 'crypto';
+import { randomUUID, UUID } from 'crypto';
 import { NotificationService } from '../../../Core/Services/Notification/notification.service';
 
 @Component({
@@ -20,7 +19,6 @@ import { NotificationService } from '../../../Core/Services/Notification/notific
 })
 export default class FavoritesComponent implements OnInit {
   private favoriteVideoService = inject(FavoriteVideoService);
-  private keycloakService = inject(KeycloakService);
   private notificationService = inject(NotificationService);
 
   private readonly RECORDS: number = 8;
@@ -57,7 +55,7 @@ export default class FavoritesComponent implements OnInit {
 
   private getTotalVideos() {
     this.favoriteVideoService
-      .totalUserVideos(this.keycloakService.profile?.id)
+      .totalUserVideos(crypto.randomUUID()) /*poner el id del usuario */
       .subscribe({
         next: (response: number) => {
           this.totalVideos.set(response);
@@ -78,7 +76,7 @@ export default class FavoritesComponent implements OnInit {
   findUserVideos() {
     this.favoriteVideoService
       .findUserVideos(
-        this.keycloakService.profile?.id,
+        crypto.randomUUID() /*poner el id del usuario */,
         this.currentPage(),
         this.RECORDS
       )
@@ -88,10 +86,12 @@ export default class FavoritesComponent implements OnInit {
           this.disabledNextBtn();
           this.disabledPreviousBtn();
         },
-        error: () => {this.showNotification(
-          'Error al recuperar los videos favoritos.',
-          'alert alert-danger'
-        );},
+        error: () => {
+          this.showNotification(
+            'Error al recuperar los videos favoritos.',
+            'alert alert-danger'
+          );
+        },
       });
   }
 
