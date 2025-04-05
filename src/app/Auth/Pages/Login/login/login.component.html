@@ -41,14 +41,21 @@
       }
     </div>
 
-    <button type="button" class="btn btn-primary container-fluid" [class]="{ disabled: loginForm.invalid }">
+    <button
+      type="button"
+      class="btn btn-primary container-fluid"
+      [class]="{ disabled: loginForm.invalid }"
+    >
       Iniciar sesión
     </button>
 
     <hr />
 
-    <button type="button" class="btn btn-outline-secondary container-fluid mb-3">
-      Crear cuenta
-    </button>
+    <a
+      class="btn btn-outline-secondary container-fluid mb-3"
+      role="button"
+      routerLink="/register-account"
+      >Crear cuenta</a
+    >
   </form>
 </div>
