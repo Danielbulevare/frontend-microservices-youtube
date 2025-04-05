@@ -1,1 +1,54 @@
-<p>login works!</p>
+<div class="height">
+  <form class="container shadow rounded" [formGroup]="loginForm">
+    <h2 class="text-center mt-3">¡Bienvenido!</h2>
+
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label">Correo</label>
+      <input
+        type="email"
+        class="form-control"
+        id="exampleFormControlInput1"
+        formControlName="email"
+        placeholder="Ej. name@example.com"
+      />
+
+      @if (email.hasError('email')) {
+      <div class="alert alert-danger mt-2" role="alert">
+        Ingresa un correo válido.
+      </div>
+      } @if (email.hasError('required') && email.touched) {
+      <div class="alert alert-danger mt-2" role="alert">
+        Por favor ingresa un correo.
+      </div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label for="inputPassword" class="form-label">Contraseña</label>
+      <input
+        type="password"
+        id="inputPassword"
+        class="form-control"
+        formControlName="password"
+        aria-describedby="passwordHelpBlock"
+      />
+
+      @if(password.hasError('required') && password.touched){
+
+      <div class="alert alert-danger mt-2" role="alert">
+        Por favor ingresa la contraseña.
+      </div>
+      }
+    </div>
+
+    <button type="button" class="btn btn-primary container-fluid" [class]="{ disabled: loginForm.invalid }">
+      Iniciar sesión
+    </button>
+
+    <hr />
+
+    <button type="button" class="btn btn-outline-secondary container-fluid mb-3">
+      Crear cuenta
+    </button>
+  </form>
+</div>
