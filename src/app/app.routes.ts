@@ -2,6 +2,10 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'login',
+    loadComponent: () => import('./Auth/Pages/Login/login/login.component'),
+  },
+  {
     path: 'microservice-youtube',
     loadComponent: () =>
       import('./microservice-youtube/microservice-youtube.component'),
@@ -20,7 +24,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/microservice-youtube/videos',
+    redirectTo: '/login',
     pathMatch: 'full',
   },
   {
