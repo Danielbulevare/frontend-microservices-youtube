@@ -1,0 +1,135 @@
+<app-notification/>
+
+<div class="height">
+  <form
+    class="container shadow rounded form-height"
+    [formGroup]="registerUserForm"
+  >
+    <h2 class="text-center mt-3">Crea una cuenta</h2>
+
+    <hr />
+
+    <a
+      class="btn btn-outline-secondary container-fluid mb-2"
+      role="button"
+      routerLink="/login"
+      >Regresar al login</a
+    >
+
+    <div class="flex-row">
+      <div class="mb-3">
+        <label for="inputName" class="form-label">Nombre (s)</label>
+        <input
+          type="text"
+          class="form-control"
+          id="inputName"
+          placeholder="Ej. Fulanito de Tal"
+          formControlName="name"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="inputSurnames" class="form-label">Apellidos</label>
+        <input
+          type="text"
+          id="inputSurnames"
+          class="form-control"
+          placeholder="Ej. Pérez López"
+          formControlName="surnames"
+        />
+      </div>
+    </div>
+
+    @if((name.hasError('required') || surnames.hasError('required')) &&
+    (name.touched || surnames.touched)){
+    <div class="alert alert-danger mt-2" role="alert">
+      Por favor ingresa tu nombre y/o apellidos.
+    </div>
+    }
+
+    <div class="mb-3">
+      <label for="inputUserName" class="form-label">Nombre de usuario</label>
+      <input
+        type="text"
+        id="inputUserName"
+        class="form-control"
+        placeholder="Ej. Fulanito"
+        formControlName="userName"
+      />
+    </div>
+
+    @if(userName.hasError('required') && userName.touched){
+    <div class="alert alert-danger mt-2" role="alert">
+      Por favor ingresa tu nombre de usuario.
+    </div>
+    }
+
+    <div class="mb-3">
+      <label for="inputEmail" class="form-label">Correo</label>
+      <input
+        type="email"
+        id="inputEmail"
+        class="form-control"
+        placeholder="Ej. fulanito@example.com"
+        formControlName="email"
+      />
+    </div>
+
+    @if(email.hasError('required') && email.touched){
+    <div class="alert alert-danger mt-2" role="alert">
+      Por favor ingresa tu correo.
+    </div>
+    } @if(email.hasError('email')){
+    <div class="alert alert-danger mt-2" role="alert">
+      Por favor ingresa un correo valido.
+    </div>
+    }
+
+    <div class="mb-3">
+      <label for="inputPassword" class="form-label">Contraseña</label>
+      <input
+        type="password"
+        id="inputPassword"
+        class="form-control"
+        formControlName="password"
+      />
+    </div>
+
+    @if(password.hasError('required') && password.touched){
+    <div class="alert alert-danger mt-2" role="alert">
+      Por favor ingresa una contraseña.
+    </div>
+    }
+
+    <div class="mb-3">
+      <label for="inputConfirmPassword" class="form-label"
+        >Confirmar contraseña</label
+      >
+      <input
+        type="password"
+        id="inputConfirmPassword"
+        class="form-control"
+        formControlName="confirmPassword"
+      />
+    </div>
+
+    @if(confirmPassword.hasError('required') && confirmPassword.touched){
+    <div class="alert alert-danger mt-2" role="alert">
+      Por favor confirma la contraseña.
+    </div>
+    } @if(password.value != confirmPassword.value){
+    <div class="alert alert-danger mt-2" role="alert">
+      Las contraseñas no coinciden.
+    </div>
+    }
+
+    <button
+      type="button"
+      class="btn btn-primary container-fluid mb-3"
+      [class]="{ disabled: registerUserForm.invalid || password.value != confirmPassword.value }"
+      (click)="saveUser()"
+    >
+      Registrar
+    </button>
+  </form>
+</div>

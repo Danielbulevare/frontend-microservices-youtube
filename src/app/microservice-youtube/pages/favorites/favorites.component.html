@@ -1,0 +1,73 @@
+<h4>Favoritos</h4>
+
+<form class="mb-3" [formGroup]="formSearch">
+  <label for="txtSearch" class="col-form-label">Buscar</label>
+
+  <div class="flex-inline">
+    <input
+      id="txtSearch"
+      formControlName="txtSearch"
+      class="form-control"
+      type="text"
+      placeholder="Título video"
+      aria-label="default input example"
+    />
+    <button type="button" class="btn-close ms-2" aria-label="Close" (click)="cleanInput()"></button>
+  </div>
+</form>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Miniatura</th>
+      <th scope="col">Video</th>
+      <th scope="col">Quitar</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (item of filterVideos(); track $index) {
+    <tr>
+      <td>
+        <img
+          [src]="item.url"
+          alt="Logo"
+          width="30"
+          height="30"
+          class="d-inline-block align-text-top"
+        />
+      </td>
+      <td>{{ item.title }}</td>
+      <td>
+        <button type="button" class="btn">
+          <img
+            src="assets/img/redHeart.svg"
+            alt="Logo"
+            width="20"
+            height="20"
+            class="d-inline-block align-text-top"
+            (click)="deleteVideo(item.id)"
+          />
+        </button>
+      </td>
+    </tr>
+    }
+  </tbody>
+</table>
+
+ <nav aria-label="...">
+  <ul class="pagination">
+    <li [class.disabled]="disabledPreviousButton()" class="page-item disabled">
+      <a class="page-link" [routerLink]="['/microservice-youtube/favorites', getPreviousPage()]" (click)="previousPage()">Anterior</a>
+    </li>
+
+    @for (item of [].constructor(pageNumbers()); track $index) {
+    <li class="page-item" routerLinkActive="active">
+      <a class="page-link" [routerLink]="['/microservice-youtube/favorites',$index]" (click)="goToPage($index)">{{ $index }}</a>
+    </li>
+    }
+
+    <li [class.disabled]="disabledNextButton()" class="page-item">
+      <a class="page-link" [routerLink]="['/microservice-youtube/favorites', getNextPage()]" (click)="nextPage()">Siguiente</a>
+    </li>
+  </ul>
+</nav>

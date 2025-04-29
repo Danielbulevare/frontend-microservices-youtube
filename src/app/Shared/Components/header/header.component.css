@@ -1,0 +1,9 @@
+.flex-inline {
+  display: flex;
+  flex-direction: row;
+    align-items: end;
+}
+
+h6{
+    margin: 0;
+}

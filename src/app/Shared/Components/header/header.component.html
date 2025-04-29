@@ -1,0 +1,29 @@
+<header class="">
+  <nav class="navbar bg-body-tertiary grid-inline">
+    <div class="">
+
+      <a class="ms-2 navbar-brand" href="#">
+        <img
+          src="assets/img/logo.svg"
+          alt="Logo"
+          width="30"
+          height="30"
+          class="d-inline-block align-text-top"
+        />
+        InnovaTube
+      </a>
+    </div>
+
+    <div>
+      <div>
+        <h6 class="me-2">
+          {{getUserName()}}
+
+          <button class="btn btn-primary btn-sm ms-2" type="button" (click)="logout()">
+            Cerrar sesión
+          </button>
+        </h6>
+      </div>
+    </div>
+  </nav>
+</header>

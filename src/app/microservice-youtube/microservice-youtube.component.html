@@ -1,0 +1,15 @@
+<app-header />
+
+@if (getShowNotification()) {
+    <app-notification />
+}
+
+<div class="grid">
+
+    <app-menu class="menu mt-2" />
+    <div class="content mt-2 ms-2 me-2">
+
+        <router-outlet />
+    </div>
+</div>
+

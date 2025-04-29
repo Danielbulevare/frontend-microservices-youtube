@@ -1,0 +1,45 @@
+<h4>Videos</h4>
+
+<form class="mb-3" [formGroup]="formSearch">
+    <label for="txtSearch" class="col-form-label">Buscar</label>
+    
+    <div class="flex-inline">
+        <input formControlName="txtSearch" id="txtSearch" class="form-control" type="text" placeholder="Título video" aria-label="default input example">
+        <button type="button" class="btn-close ms-2" aria-label="Close" (click)="cleanInput()"></button>
+        <button type="button" class="btn btn-primary ms-2" (click)="search()">Buscar</button>
+    </div>
+</form>
+
+<div class="grid">
+  @for (item of videosList()?.items; track $index) {
+    @if (item.id.videoId != undefined) {
+  <div class="card">
+    <img
+      [src]="item.snippet.thumbnails.medium.url"
+      class="card-img-top"
+      alt="Imagen video"
+      style="height: 180px;"
+    />
+    <div class="card-body">
+      <button type="button" class="btn btn-outline-danger" (click)="addFavoriteVideo(item)">Guardar
+        <img
+          src="assets/img/redHeart.svg"
+          alt="Logo"
+          width="20"
+          height="20"
+          class="d-inline-block align-text-top"
+        />
+      </button>
+      <hr>
+      <h5 class="card-title">{{item.snippet.title}}</h5>
+    </div>
+  </div>
+}
+  }
+</div>
+
+@if (this.videosList() != undefined) {
+    <div class="footer mt-3 mb-3">
+        <button type="button" class="btn btn-primary" (click)="searchPage()">Siguiente</button>
+    </div>
+}

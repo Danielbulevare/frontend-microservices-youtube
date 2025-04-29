@@ -1,0 +1,60 @@
+<app-notification/>
+
+<div class="height">
+  <form class="container shadow rounded" [formGroup]="loginForm">
+    <h2 class="text-center mt-3">¡Bienvenido!</h2>
+
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label">Nombre</label>
+      <input
+        type="text"
+        class="form-control"
+        id="exampleFormControlInput1"
+        formControlName="name"
+        placeholder="Ej. Fulanito"
+      />
+
+      @if (name.hasError('required') && name.touched) {
+      <div class="alert alert-danger mt-2" role="alert">
+        Por favor ingresa tu nombre.
+      </div>
+      }
+    </div>
+
+    <div class="mb-3">
+      <label for="inputPassword" class="form-label">Contraseña</label>
+      <input
+        type="password"
+        id="inputPassword"
+        class="form-control"
+        formControlName="password"
+        aria-describedby="passwordHelpBlock"
+      />
+
+      @if(password.hasError('required') && password.touched){
+
+      <div class="alert alert-danger mt-2" role="alert">
+        Por favor ingresa la contraseña.
+      </div>
+      }
+    </div>
+
+    <button
+      type="button"
+      class="btn btn-primary container-fluid"
+      [class]="{ disabled: loginForm.invalid }"
+      (click)="login()"
+    >
+      Iniciar sesión
+    </button>
+
+    <hr />
+
+    <a
+      class="btn btn-outline-secondary container-fluid mb-3"
+      role="button"
+      routerLink="/register-account"
+      >Crear cuenta</a
+    >
+  </form>
+</div>
